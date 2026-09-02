@@ -1,40 +1,46 @@
 import SwiftUI
+import UIKit
 
-/// Presents a session's share card and rasterizes it on appearance so
-/// ShareLink has an actual image to hand off, not just the live view.
+/// A Wordle-style share: plain monospaced text, copy-to-clipboard as the
+/// primary action, with the native share sheet as a secondary option.
 struct ShareSessionSheet: View {
     let session: BreakSession
 
     @Environment(\.dismiss) private var dismiss
-    @State private var renderedImage: Image?
+    @State private var didCopy = false
+
+    private var shareText: String {
+        ShareText.wordleStyle(for: session)
+    }
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
                 Spacer()
 
-                ShareCardView(session: session)
-                    .shadow(color: .black.opacity(0.25), radius: 20, y: 10)
+                preview
 
                 Spacer()
 
-                if let renderedImage {
-                    ShareLink(
-                        item: renderedImage,
-                        preview: SharePreview("MEWP Fare", image: renderedImage)
-                    ) {
-                        Label("Share", systemImage: "square.and.arrow.up")
+                VStack(spacing: 10) {
+                    Button(action: copy) {
+                        Label(didCopy ? "Copied" : "Copy", systemImage: didCopy ? "checkmark" : "doc.on.doc")
                             .font(.headline)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 10)
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(Theme.amber)
-                    .padding(.horizontal, 20)
-                } else {
-                    ProgressView()
-                        .padding(.vertical, 12)
+                    .sensoryFeedback(.success, trigger: didCopy)
+
+                    ShareLink(item: shareText) {
+                        Label("Share…", systemImage: "square.and.arrow.up")
+                            .font(.subheadline)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 6)
+                    }
                 }
+                .padding(.horizontal, 20)
             }
             .padding(.bottom, 24)
             .navigationTitle("Share")
@@ -44,15 +50,34 @@ struct ShareSessionSheet: View {
                     Button("Done") { dismiss() }
                 }
             }
-            .task { render() }
         }
     }
 
-    @MainActor
-    private func render() {
-        let renderer = ImageRenderer(content: ShareCardView(session: session))
-        renderer.scale = 3
-        renderedImage = renderer.uiImage.map(Image.init(uiImage:))
+    private var preview: some View {
+        Text(shareText)
+            .font(.system(size: 18, weight: .medium, design: .monospaced))
+            .foregroundStyle(Theme.amber)
+            .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(20)
+            .background(
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .fill(Theme.panel)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 18, style: .continuous)
+                            .strokeBorder(Theme.panelEdge, lineWidth: 1)
+                    )
+            )
+            .padding(.horizontal, 20)
+    }
+
+    private func copy() {
+        UIPasteboard.general.string = shareText
+        withAnimation { didCopy = true }
+        Task {
+            try? await Task.sleep(for: .seconds(2))
+            withAnimation { didCopy = false }
+        }
     }
 }
 

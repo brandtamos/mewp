@@ -61,4 +61,11 @@ enum ComparisonTable {
         let index = abs(seed) % tier.phrases.count
         return tier.phrases[index]
     }
+
+    /// How far up the absurdity scale this duration lands, as (filled, total)
+    /// — the Wordle-grid-style bar in the share text is built from this.
+    static func tierLevel(for duration: TimeInterval) -> (filled: Int, total: Int) {
+        let index = tiers.firstIndex { duration <= $0.ceiling } ?? tiers.count - 1
+        return (index + 1, tiers.count)
+    }
 }

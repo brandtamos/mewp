@@ -15,11 +15,11 @@
 		5FD435D90AC1FE2C2BE33B9A /* ComparisonTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD87F8FD600FB5396B37AB8E /* ComparisonTable.swift */; };
 		80C6098C1971D41CFA9C4A4D /* DataCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC3E003457D8F0F72A70742 /* DataCipher.swift */; };
 		81F36C9E6159CEE4699B7935 /* MewpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8A424544D07B4897E90CD9 /* MewpApp.swift */; };
-		8B9B737880AC77F6E128D314 /* ShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FF433C016C7AF49D9FA209 /* ShareCardView.swift */; };
 		C95244C305BEFD16ED87BF97 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63908C3DB5204B3BC532F77C /* TimerView.swift */; };
 		CFA9A52CEBE6C41F0A6484F9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7C49CB85ACA0D584C1380C /* SettingsView.swift */; };
 		DFEB4454699B85FDD1FF4974 /* BreakSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09477014079E63AD17BC49B /* BreakSession.swift */; };
 		E84244025F4A83B4ED14938F /* PayRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E2F6F37DCF8B9531219F8D /* PayRate.swift */; };
+		EE7BA4D5596891C3E230426B /* ShareText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD1FBA7880C0D96A8547B65 /* ShareText.swift */; };
 		F0770D586797609D99F790A9 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF41AD939834F72605A981C9 /* Theme.swift */; };
 		F8107FDA3B99B0A5643C1077 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0998AB4BC2F9804C88E23300 /* Formatters.swift */; };
 		F810B582351BCDEC44264C28 /* PaySettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FA9AB28A4CFDDE2AD964D0 /* PaySettingsStore.swift */; };
@@ -39,12 +39,12 @@
 		63908C3DB5204B3BC532F77C /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		6A7A5A84018F1710E94B923C /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		81D5B6335F4F101482DC291D /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		8CD1FBA7880C0D96A8547B65 /* ShareText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareText.swift; sourceTree = "<group>"; };
 		97E2F6F37DCF8B9531219F8D /* PayRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayRate.swift; sourceTree = "<group>"; };
 		A09477014079E63AD17BC49B /* BreakSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakSession.swift; sourceTree = "<group>"; };
 		AF41AD939834F72605A981C9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		BD87F8FD600FB5396B37AB8E /* ComparisonTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonTable.swift; sourceTree = "<group>"; };
 		CE8A424544D07B4897E90CD9 /* MewpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MewpApp.swift; sourceTree = "<group>"; };
-		E6FF433C016C7AF49D9FA209 /* ShareCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -64,6 +64,7 @@
 				4AC3E003457D8F0F72A70742 /* DataCipher.swift */,
 				0998AB4BC2F9804C88E23300 /* Formatters.swift */,
 				474CB8E74C63B88C24B4FEF1 /* Media.xcassets */,
+				8CD1FBA7880C0D96A8547B65 /* ShareText.swift */,
 				AF41AD939834F72605A981C9 /* Theme.swift */,
 			);
 			path = Support;
@@ -121,7 +122,6 @@
 			children = (
 				3900DBEEFBC14B0227DE054B /* HistoryView.swift */,
 				0D7C49CB85ACA0D584C1380C /* SettingsView.swift */,
-				E6FF433C016C7AF49D9FA209 /* ShareCardView.swift */,
 				2D8BB73DC1BA4AA29EFC95FC /* ShareSessionSheet.swift */,
 				63908C3DB5204B3BC532F77C /* TimerView.swift */,
 			);
@@ -207,8 +207,8 @@
 				0F14320527F505728D2D0645 /* RootView.swift in Sources */,
 				FAED9F3FFB32BD3AC7DE46E9 /* SessionStore.swift in Sources */,
 				CFA9A52CEBE6C41F0A6484F9 /* SettingsView.swift in Sources */,
-				8B9B737880AC77F6E128D314 /* ShareCardView.swift in Sources */,
 				15FC5797A87A5346C6BC1624 /* ShareSessionSheet.swift in Sources */,
+				EE7BA4D5596891C3E230426B /* ShareText.swift in Sources */,
 				F0770D586797609D99F790A9 /* Theme.swift in Sources */,
 				C95244C305BEFD16ED87BF97 /* TimerView.swift in Sources */,
 			);
