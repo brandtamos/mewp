@@ -28,6 +28,7 @@ final class BreakTimer {
             startedAt = saved
             elapsed = Date().timeIntervalSince(saved)
             resumeTicking()
+            NotificationScheduler.scheduleReminders(from: saved)
         }
     }
 
@@ -43,6 +44,7 @@ final class BreakTimer {
         elapsed = 0
         defaults.set(date, forKey: Self.activeStartKey)
         resumeTicking()
+        NotificationScheduler.scheduleReminders(from: date)
     }
 
     /// Stops the meter and hands back the interval so the caller can build a
@@ -65,6 +67,7 @@ final class BreakTimer {
         startedAt = nil
         elapsed = 0
         defaults.removeObject(forKey: Self.activeStartKey)
+        NotificationScheduler.cancelReminders()
     }
 
     // MARK: - Lifecycle

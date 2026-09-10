@@ -13,8 +13,11 @@
 		22518CC0A26269CA0144545E /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3900DBEEFBC14B0227DE054B /* HistoryView.swift */; };
 		461F4CDC7F1AB2C380AD27D8 /* BreakTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0828ABBBCECE2F6EBFA1B7 /* BreakTimer.swift */; };
 		5FD435D90AC1FE2C2BE33B9A /* ComparisonTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD87F8FD600FB5396B37AB8E /* ComparisonTable.swift */; };
+		63BE7F32A5F1FF9D6D755067 /* EditSessionTimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF80F5FB192676407BA723FD /* EditSessionTimesView.swift */; };
 		80C6098C1971D41CFA9C4A4D /* DataCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC3E003457D8F0F72A70742 /* DataCipher.swift */; };
 		81F36C9E6159CEE4699B7935 /* MewpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8A424544D07B4897E90CD9 /* MewpApp.swift */; };
+		AA0601E6DDAAA430411B638B /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F75579A0FEFAFB3A7D955A /* NotificationScheduler.swift */; };
+		AD96DC084C41339886E92FFA /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 360ABD546A1B6A34BA014851 /* PrivacyInfo.xcprivacy */; };
 		C95244C305BEFD16ED87BF97 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63908C3DB5204B3BC532F77C /* TimerView.swift */; };
 		CFA9A52CEBE6C41F0A6484F9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7C49CB85ACA0D584C1380C /* SettingsView.swift */; };
 		DFEB4454699B85FDD1FF4974 /* BreakSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09477014079E63AD17BC49B /* BreakSession.swift */; };
@@ -32,8 +35,9 @@
 		0D7C49CB85ACA0D584C1380C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		2D8BB73DC1BA4AA29EFC95FC /* ShareSessionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSessionSheet.swift; sourceTree = "<group>"; };
 		32FA9AB28A4CFDDE2AD964D0 /* PaySettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaySettingsStore.swift; sourceTree = "<group>"; };
+		360ABD546A1B6A34BA014851 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		3900DBEEFBC14B0227DE054B /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
-		4102ED544BD0F2C45F03181F /* Mewp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Mewp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4102ED544BD0F2C45F03181F /* Mewp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mewp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		474CB8E74C63B88C24B4FEF1 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		4AC3E003457D8F0F72A70742 /* DataCipher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCipher.swift; sourceTree = "<group>"; };
 		63908C3DB5204B3BC532F77C /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
@@ -45,6 +49,8 @@
 		AF41AD939834F72605A981C9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		BD87F8FD600FB5396B37AB8E /* ComparisonTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonTable.swift; sourceTree = "<group>"; };
 		CE8A424544D07B4897E90CD9 /* MewpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MewpApp.swift; sourceTree = "<group>"; };
+		D8F75579A0FEFAFB3A7D955A /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
+		EF80F5FB192676407BA723FD /* EditSessionTimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSessionTimesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -64,6 +70,7 @@
 				4AC3E003457D8F0F72A70742 /* DataCipher.swift */,
 				0998AB4BC2F9804C88E23300 /* Formatters.swift */,
 				474CB8E74C63B88C24B4FEF1 /* Media.xcassets */,
+				D8F75579A0FEFAFB3A7D955A /* NotificationScheduler.swift */,
 				8CD1FBA7880C0D96A8547B65 /* ShareText.swift */,
 				AF41AD939834F72605A981C9 /* Theme.swift */,
 			);
@@ -73,6 +80,7 @@
 		6B68A9D5744BEF647BB239AE /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				360ABD546A1B6A34BA014851 /* PrivacyInfo.xcprivacy */,
 				B697D8C9EC9BD6678DC38A64 /* App */,
 				2A22A684C4A66494FA768417 /* Models */,
 				BC690DE32A2E485CA8999A59 /* Stores */,
@@ -120,6 +128,7 @@
 		D00EB79544B3D4A6287A9344 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EF80F5FB192676407BA723FD /* EditSessionTimesView.swift */,
 				3900DBEEFBC14B0227DE054B /* HistoryView.swift */,
 				0D7C49CB85ACA0D584C1380C /* SettingsView.swift */,
 				2D8BB73DC1BA4AA29EFC95FC /* ShareSessionSheet.swift */,
@@ -157,8 +166,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 1FD4FC1B289081FD56857323 /* Build configuration list for PBXProject "Mewp" */;
 			developmentRegion = en;
@@ -185,6 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				123E54FE2CE75E0137D79F91 /* Media.xcassets in Resources */,
+				AD96DC084C41339886E92FFA /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,9 +207,11 @@
 				461F4CDC7F1AB2C380AD27D8 /* BreakTimer.swift in Sources */,
 				5FD435D90AC1FE2C2BE33B9A /* ComparisonTable.swift in Sources */,
 				80C6098C1971D41CFA9C4A4D /* DataCipher.swift in Sources */,
+				63BE7F32A5F1FF9D6D755067 /* EditSessionTimesView.swift in Sources */,
 				F8107FDA3B99B0A5643C1077 /* Formatters.swift in Sources */,
 				22518CC0A26269CA0144545E /* HistoryView.swift in Sources */,
 				81F36C9E6159CEE4699B7935 /* MewpApp.swift in Sources */,
+				AA0601E6DDAAA430411B638B /* NotificationScheduler.swift in Sources */,
 				E84244025F4A83B4ED14938F /* PayRate.swift in Sources */,
 				F810B582351BCDEC44264C28 /* PaySettingsStore.swift in Sources */,
 				0F14320527F505728D2D0645 /* RootView.swift in Sources */,
@@ -278,17 +288,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = RZ7NXTNWHX;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MEWP;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.Mewp;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wumpr.mewp;
 				PRODUCT_NAME = Mewp;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.9;
@@ -364,17 +377,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = RZ7NXTNWHX;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MEWP;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.Mewp;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wumpr.mewp;
 				PRODUCT_NAME = Mewp;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.9;

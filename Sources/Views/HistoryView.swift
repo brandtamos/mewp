@@ -5,6 +5,7 @@ struct HistoryView: View {
     @Environment(PaySettingsStore.self) private var settings
 
     @State private var sharingSession: BreakSession?
+    @State private var editingSession: BreakSession?
 
     private var currency: String { settings.rate.currencyCode }
 
@@ -20,6 +21,22 @@ struct HistoryView: View {
             .navigationTitle("Ledger")
             .sheet(item: $sharingSession) { session in
                 ShareSessionSheet(session: session)
+            }
+            .sheet(item: $editingSession) { session in
+                EditSessionTimesView(
+                    title: "Edit trip",
+                    startedAt: session.startedAt,
+                    endedAt: session.endedAt,
+                    hourlyRate: session.hourlyRateSnapshot,
+                    currencyCode: session.currencyCode,
+                    onDiscard: nil,
+                    onSave: { start, end in
+                        var updated = session
+                        updated.startedAt = start
+                        updated.endedAt = end
+                        store.update(updated)
+                    }
+                )
             }
         }
     }
@@ -82,6 +99,8 @@ struct HistoryView: View {
                 .foregroundStyle(.secondary)
         }
         .padding(.vertical, 2)
+        .contentShape(Rectangle())
+        .onTapGesture { editingSession = session }
     }
 
     private var emptyState: some View {

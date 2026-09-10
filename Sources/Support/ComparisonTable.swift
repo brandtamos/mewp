@@ -58,7 +58,7 @@ enum ComparisonTable {
     /// same line instead of reshuffling on every share.
     static func phrase(for duration: TimeInterval, seed: Int) -> String {
         let tier = tiers.first { duration <= $0.ceiling } ?? tiers[tiers.count - 1]
-        let index = abs(seed) % tier.phrases.count
+        let index = Int(seed.magnitude % UInt(tier.phrases.count))
         return tier.phrases[index]
     }
 

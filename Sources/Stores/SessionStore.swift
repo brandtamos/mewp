@@ -28,6 +28,13 @@ final class SessionStore {
         persist()
     }
 
+    func update(_ session: BreakSession) {
+        guard let index = sessions.firstIndex(where: { $0.id == session.id }) else { return }
+        sessions[index] = session
+        sessions.sort { $0.endedAt > $1.endedAt }
+        persist()
+    }
+
     func delete(at offsets: IndexSet) {
         sessions.remove(atOffsets: offsets)
         persist()

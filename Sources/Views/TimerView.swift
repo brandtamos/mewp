@@ -6,8 +6,16 @@ struct TimerView: View {
     @Environment(BreakTimer.self) private var timer
 
     @State private var showingRateSetup = false
+    @State private var showingDiscardConfirmation = false
     @State private var lampIsLit = false
     @State private var sharingSession: BreakSession?
+    @State private var pendingInterval: PendingInterval?
+
+    private struct PendingInterval: Identifiable {
+        let id = UUID()
+        var start: Date
+        var end: Date
+    }
 
     private var rate: PayRate { settings.rate }
 
@@ -38,6 +46,17 @@ struct TimerView: View {
             .sheet(item: $sharingSession) { session in
                 ShareSessionSheet(session: session)
             }
+            .sheet(item: $pendingInterval) { pending in
+                EditSessionTimesView(
+                    title: "Confirm times",
+                    startedAt: pending.start,
+                    endedAt: pending.end,
+                    hourlyRate: rate.effectiveHourlyRate,
+                    currencyCode: rate.currencyCode,
+                    onDiscard: { pendingInterval = nil },
+                    onSave: commit
+                )
+            }
         }
     }
 
@@ -64,10 +83,6 @@ struct TimerView: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
                 .padding(.top, 4)
-
-            Text("Earning \(Format.money(rate.effectiveHourlyRate, code: rate.currencyCode)) an hour")
-                .font(.system(size: 13, design: .monospaced))
-                .foregroundStyle(Theme.amberDim)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(22)
@@ -96,6 +111,9 @@ struct TimerView: View {
             Button(action: primaryAction) {
                 Text(timer.isRunning ? "Done Pooping" : "Start Pooping")
                     .font(.headline)
+                    // .primary tint renders white in dark mode; without an
+                    // explicit inverse label color the text disappears.
+                    .foregroundStyle(timer.isRunning ? Color(.systemBackground) : .white)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)
             }
@@ -105,9 +123,20 @@ struct TimerView: View {
 
             if timer.isRunning {
                 Button("Discard this poop", role: .destructive) {
-                    timer.cancel()
+                    showingDiscardConfirmation = true
                 }
                 .font(.subheadline)
+                .alert(
+                    "Discard this poop?",
+                    isPresented: $showingDiscardConfirmation
+                ) {
+                    Button("Discard", role: .destructive) {
+                        timer.cancel()
+                    }
+                    Button("Keep poopin'", role: .cancel) {}
+                } message: {
+                    Text("Your time and earnings from this session will be lost.")
+                }
             }
         }
     }
@@ -119,17 +148,28 @@ struct TimerView: View {
         }
 
         if let interval = timer.stop() {
-            let session = BreakSession(
-                startedAt: interval.start,
-                endedAt: interval.end,
-                hourlyRateSnapshot: rate.effectiveHourlyRate,
-                currencyCode: rate.currencyCode
-            )
-            sessions.add(session)
-            sharingSession = session
+            // A session this long may have run past when the person actually
+            // finished (that's what the "still in there?" nudge is for), so
+            // give them a chance to correct the end time before it's saved.
+            if interval.duration >= NotificationScheduler.firstReminderDelay {
+                pendingInterval = PendingInterval(start: interval.start, end: interval.end)
+            } else {
+                commit(start: interval.start, end: interval.end)
+            }
         } else {
             timer.start()
         }
+    }
+
+    private func commit(start: Date, end: Date) {
+        let session = BreakSession(
+            startedAt: start,
+            endedAt: end,
+            hourlyRateSnapshot: rate.effectiveHourlyRate,
+            currencyCode: rate.currencyCode
+        )
+        sessions.add(session)
+        sharingSession = session
     }
 
     // MARK: - Footer
