@@ -15,6 +15,11 @@ struct EditSessionTimesView: View {
     let onDiscard: (() -> Void)?
     let onSave: (Date, Date) -> Void
 
+    /// Returns true if the proposed start/end range collides with another
+    /// saved session. Defaults to never overlapping for callers that don't
+    /// care (e.g. previews).
+    let overlaps: (Date, Date) -> Bool
+
     @State private var startedAt: Date
     @State private var endedAt: Date
 
@@ -27,7 +32,8 @@ struct EditSessionTimesView: View {
         hourlyRate: Decimal,
         currencyCode: String,
         onDiscard: (() -> Void)?,
-        onSave: @escaping (Date, Date) -> Void
+        onSave: @escaping (Date, Date) -> Void,
+        overlaps: @escaping (Date, Date) -> Bool = { _, _ in false }
     ) {
         self.title = title
         self._startedAt = State(initialValue: startedAt)
@@ -36,11 +42,14 @@ struct EditSessionTimesView: View {
         self.currencyCode = currencyCode
         self.onDiscard = onDiscard
         self.onSave = onSave
+        self.overlaps = overlaps
     }
 
     private var duration: TimeInterval { max(0, endedAt.timeIntervalSince(startedAt)) }
     private var earnings: Decimal { (hourlyRate / 3600) * Decimal(duration) }
-    private var isValid: Bool { endedAt >= startedAt }
+    private var orderIsValid: Bool { endedAt >= startedAt }
+    private var conflictsWithOther: Bool { orderIsValid && overlaps(startedAt, endedAt) }
+    private var isValid: Bool { orderIsValid && !conflictsWithOther }
 
     var body: some View {
         NavigationStack {
@@ -49,8 +58,11 @@ struct EditSessionTimesView: View {
                     DatePicker("Started", selection: $startedAt, displayedComponents: [.date, .hourAndMinute])
                     DatePicker("Ended", selection: $endedAt, displayedComponents: [.date, .hourAndMinute])
                 } footer: {
-                    if !isValid {
+                    if !orderIsValid {
                         Text("End time can't be before the start time.")
+                            .foregroundStyle(.red)
+                    } else if conflictsWithOther {
+                        Text("These times overlap another poop. Pick a slot that doesn't collide.")
                             .foregroundStyle(.red)
                     }
                 }

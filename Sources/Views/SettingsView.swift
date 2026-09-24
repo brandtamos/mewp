@@ -11,6 +11,7 @@ struct SettingsView: View {
     var body: some View {
         @Bindable var settings = settings
         let rate = settings.rate
+        let weeksError = weeksValidationMessage(for: rate)
 
         Form {
             Section {
@@ -46,10 +47,15 @@ struct SettingsView: View {
                         TextField("52", value: $settings.rate.weeksPerYear, format: .number)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
+                            .foregroundStyle(weeksError != nil ? Color.red : Color.primary)
                     }
                 }
             } footer: {
-                if rate.type == .salary {
+                if let weeksError {
+                    Label(weeksError, systemImage: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.red)
+                        .font(.footnote.weight(.medium))
+                } else if rate.type == .salary {
                     Text("Unpaid time off lowers your weeks a year, which raises what each hour is worth.")
                 }
             }
@@ -86,6 +92,7 @@ struct SettingsView: View {
                     settings.markConfigured()
                     dismiss()
                 }
+                .disabled(weeksError != nil)
             }
         }
         .confirmationDialog(
@@ -98,6 +105,19 @@ struct SettingsView: View {
         } message: {
             Text("This can't be undone.")
         }
+    }
+
+    /// Weeks a year only matters for salaried pay, where it must fall in
+    /// 1...52. Returns a message describing the problem, or nil when valid.
+    private func weeksValidationMessage(for rate: PayRate) -> String? {
+        guard rate.type == .salary else { return nil }
+        if rate.weeksPerYear > 52 {
+            return "A year only has 52 weeks. Enter 52 or fewer."
+        }
+        if rate.weeksPerYear < 1 {
+            return "Enter at least 1 week a year."
+        }
+        return nil
     }
 
     private static let commonCurrencies = ["USD", "EUR", "GBP", "CAD", "AUD", "JPY", "INR", "SEK", "CHF", "BRL"]

@@ -35,6 +35,9 @@ struct HistoryView: View {
                         updated.startedAt = start
                         updated.endedAt = end
                         store.update(updated)
+                    },
+                    overlaps: { start, end in
+                        store.overlaps(start: start, end: end, excluding: session.id)
                     }
                 )
             }

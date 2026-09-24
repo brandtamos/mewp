@@ -68,6 +68,17 @@ final class SessionStore {
         sessions.filter { calendar.isDate($0.endedAt, inSameDayAs: day) }
     }
 
+    /// True if the given time range overlaps any saved session. Pass the id of
+    /// the session being edited to `excluding` so it doesn't clash with itself.
+    /// Touching endpoints (one trip ending exactly when the next begins) is
+    /// allowed — the comparison is strict.
+    func overlaps(start: Date, end: Date, excluding id: UUID? = nil) -> Bool {
+        sessions.contains { session in
+            guard session.id != id else { return false }
+            return start < session.endedAt && session.startedAt < end
+        }
+    }
+
     var earningsToday: Decimal {
         sessions(on: .now).reduce(0) { $0 + $1.earnings }
     }

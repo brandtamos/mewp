@@ -54,7 +54,10 @@ struct TimerView: View {
                     hourlyRate: rate.effectiveHourlyRate,
                     currencyCode: rate.currencyCode,
                     onDiscard: { pendingInterval = nil },
-                    onSave: commit
+                    onSave: commit,
+                    overlaps: { start, end in
+                        sessions.overlaps(start: start, end: end)
+                    }
                 )
             }
         }
