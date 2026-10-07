@@ -27,7 +27,7 @@ struct HistoryView: View {
                     title: "Edit trip",
                     startedAt: session.startedAt,
                     endedAt: session.endedAt,
-                    hourlyRate: session.hourlyRateSnapshot,
+                    hourlyRate: session.effectiveHourlyRate,
                     currencyCode: session.currencyCode,
                     onDiscard: nil,
                     onSave: { start, end in

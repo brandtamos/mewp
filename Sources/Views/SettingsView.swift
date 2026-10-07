@@ -25,7 +25,7 @@ struct SettingsView: View {
                 switch rate.type {
                 case .hourly:
                     LabeledContent("Hourly rate") {
-                        TextField("25.00", value: $settings.rate.hourlyAmount, format: .number)
+                        TextField("25.00", value: nonNegative($settings.rate.hourlyAmount), format: .number)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                             .focused($amountIsFocused)
@@ -33,21 +33,23 @@ struct SettingsView: View {
 
                 case .salary:
                     LabeledContent("Annual salary") {
-                        TextField("52000", value: $settings.rate.annualSalary, format: .number)
+                        TextField("52000", value: nonNegative($settings.rate.annualSalary), format: .number)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                             .focused($amountIsFocused)
                     }
                     LabeledContent("Hours a week") {
-                        TextField("40", value: $settings.rate.hoursPerWeek, format: .number)
+                        TextField("40", value: nonNegative($settings.rate.hoursPerWeek), format: .number)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
+                            .focused($amountIsFocused)
                     }
                     LabeledContent("Weeks a year") {
                         TextField("52", value: $settings.rate.weeksPerYear, format: .number)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                             .foregroundStyle(weeksError != nil ? Color.red : Color.primary)
+                            .focused($amountIsFocused)
                     }
                 }
             } footer: {
@@ -105,6 +107,16 @@ struct SettingsView: View {
         } message: {
             Text("This can't be undone.")
         }
+    }
+
+    /// Wraps a numeric binding so negative entries are floored at zero on
+    /// commit — pay and hours can't be negative. Works for `Decimal` and
+    /// `Double` alike.
+    private func nonNegative<V: Comparable & AdditiveArithmetic>(_ binding: Binding<V>) -> Binding<V> {
+        Binding(
+            get: { binding.wrappedValue },
+            set: { binding.wrappedValue = max($0, .zero) }
+        )
     }
 
     /// Weeks a year only matters for salaried pay, where it must fall in

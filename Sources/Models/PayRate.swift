@@ -14,6 +14,46 @@ enum RateType: String, Codable, CaseIterable, Identifiable {
     }
 }
 
+/// How much a session pays relative to the base hourly rate. Only offered to
+/// hourly workers, adjustable live while a session is running. Ordering of the
+/// cases is the slider order, so keep them ascending.
+enum OvertimeRate: String, Codable, CaseIterable, Identifiable {
+    case regular
+    case timeAndAHalf
+    case doubleTime
+    case tripleTime
+
+    var id: String { rawValue }
+
+    var multiplier: Decimal {
+        switch self {
+        case .regular: return 1
+        case .timeAndAHalf: return 1.5
+        case .doubleTime: return 2
+        case .tripleTime: return 3
+        }
+    }
+
+    var label: String {
+        switch self {
+        case .regular: return "Regular pay"
+        case .timeAndAHalf: return "Time and a half"
+        case .doubleTime: return "Double time"
+        case .tripleTime: return "Triple time"
+        }
+    }
+
+    /// Compact multiplier badge for the slider tick labels.
+    var shortLabel: String {
+        switch self {
+        case .regular: return "1×"
+        case .timeAndAHalf: return "1.5×"
+        case .doubleTime: return "2×"
+        case .tripleTime: return "3×"
+        }
+    }
+}
+
 /// Everything needed to turn elapsed seconds into money.
 struct PayRate: Codable, Equatable {
     var type: RateType = .hourly

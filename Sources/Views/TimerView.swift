@@ -10,6 +10,9 @@ struct TimerView: View {
     @State private var lampIsLit = false
     @State private var sharingSession: BreakSession?
     @State private var pendingInterval: PendingInterval?
+    /// Live overtime selection for the session in progress. Reset to `.regular`
+    /// each time a new session starts; only shown to hourly workers.
+    @State private var overtime: OvertimeRate = .regular
 
     private struct PendingInterval: Identifiable {
         let id = UUID()
@@ -19,14 +22,27 @@ struct TimerView: View {
 
     private var rate: PayRate { settings.rate }
 
+    /// The overtime multiplier in effect right now. Salaried pay never gets
+    /// the slider, so it always runs at the regular rate.
+    private var activeOvertime: OvertimeRate {
+        rate.type == .hourly ? overtime : .regular
+    }
+
     private var liveEarnings: Decimal {
-        rate.earnings(forSeconds: timer.elapsed)
+        rate.earnings(forSeconds: timer.elapsed) * activeOvertime.multiplier
+    }
+
+    private var showsOvertimeControl: Bool {
+        timer.isRunning && rate.type == .hourly
     }
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
                 meterPanel
+                if showsOvertimeControl {
+                    overtimePanel
+                }
                 controls
                 Spacer(minLength: 0)
                 todaySummary
@@ -51,7 +67,7 @@ struct TimerView: View {
                     title: "Confirm times",
                     startedAt: pending.start,
                     endedAt: pending.end,
-                    hourlyRate: rate.effectiveHourlyRate,
+                    hourlyRate: rate.effectiveHourlyRate * activeOvertime.multiplier,
                     currencyCode: rate.currencyCode,
                     onDiscard: { pendingInterval = nil },
                     onSave: commit,
@@ -107,6 +123,56 @@ struct TimerView: View {
         }
     }
 
+    // MARK: - Overtime
+
+    /// Maps the overtime selection to the slider's 0...n index space so the
+    /// uneven real multipliers (1, 1.5, 2, 3) snap to evenly spaced stops.
+    private var overtimeSliderBinding: Binding<Double> {
+        Binding(
+            get: { Double(OvertimeRate.allCases.firstIndex(of: overtime) ?? 0) },
+            set: { overtime = OvertimeRate.allCases[Int($0.rounded())] }
+        )
+    }
+
+    private var overtimePanel: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text("Overtime")
+                    .font(.system(size: 13, weight: .medium, design: .monospaced))
+                    .foregroundStyle(Theme.amberDim)
+                Spacer()
+                Text(overtime.label)
+                    .font(.system(size: 13, weight: .medium, design: .monospaced))
+                    .foregroundStyle(Theme.amber)
+            }
+
+            Slider(
+                value: overtimeSliderBinding,
+                in: 0...Double(OvertimeRate.allCases.count - 1),
+                step: 1
+            )
+            .tint(Theme.amber)
+
+            HStack(spacing: 0) {
+                ForEach(OvertimeRate.allCases) { tier in
+                    Text(tier.shortLabel)
+                        .font(.system(size: 12, design: .monospaced))
+                        .foregroundStyle(tier == overtime ? Theme.amber : Theme.amberDim)
+                        .frame(maxWidth: .infinity)
+                }
+            }
+        }
+        .padding(18)
+        .background(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(Theme.panel)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                        .strokeBorder(Theme.panelEdge, lineWidth: 1)
+                )
+        )
+    }
+
     // MARK: - Controls
 
     private var controls: some View {
@@ -160,6 +226,7 @@ struct TimerView: View {
                 commit(start: interval.start, end: interval.end)
             }
         } else {
+            overtime = .regular
             timer.start()
         }
     }
@@ -169,7 +236,8 @@ struct TimerView: View {
             startedAt: start,
             endedAt: end,
             hourlyRateSnapshot: rate.effectiveHourlyRate,
-            currencyCode: rate.currencyCode
+            currencyCode: rate.currencyCode,
+            overtime: activeOvertime
         )
         sessions.add(session)
         sharingSession = session

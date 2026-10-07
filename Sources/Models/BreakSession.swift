@@ -8,6 +8,10 @@ struct BreakSession: Codable, Identifiable, Equatable {
     var endedAt: Date
     var hourlyRateSnapshot: Decimal
     var currencyCode: String
+    /// Overtime applied to this session. Optional so sessions saved before the
+    /// feature existed still decode — a missing key would otherwise fail the
+    /// whole history load. A nil value is treated as `.regular`.
+    var overtime: OvertimeRate?
     var note: String?
 
     init(
@@ -16,6 +20,7 @@ struct BreakSession: Codable, Identifiable, Equatable {
         endedAt: Date,
         hourlyRateSnapshot: Decimal,
         currencyCode: String,
+        overtime: OvertimeRate? = nil,
         note: String? = nil
     ) {
         self.id = id
@@ -23,6 +28,7 @@ struct BreakSession: Codable, Identifiable, Equatable {
         self.endedAt = endedAt
         self.hourlyRateSnapshot = hourlyRateSnapshot
         self.currencyCode = currencyCode
+        self.overtime = overtime
         self.note = note
     }
 
@@ -30,8 +36,13 @@ struct BreakSession: Codable, Identifiable, Equatable {
         max(0, endedAt.timeIntervalSince(startedAt))
     }
 
+    /// Base rate with any overtime multiplier folded in.
+    var effectiveHourlyRate: Decimal {
+        hourlyRateSnapshot * (overtime?.multiplier ?? 1)
+    }
+
     var earnings: Decimal {
-        (hourlyRateSnapshot / 3600) * Decimal(duration)
+        (effectiveHourlyRate / 3600) * Decimal(duration)
     }
 }
 
