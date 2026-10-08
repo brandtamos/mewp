@@ -48,6 +48,11 @@ struct TimerView: View {
                 todaySummary
             }
             .padding(20)
+            // Keep the meter a comfortable reading width on iPad instead of
+            // letting the panel stretch the full width of the screen. The
+            // outer frame fills the space so the column stays centered.
+            .frame(maxWidth: 500)
+            .frame(maxWidth: .infinity, alignment: .center)
             .navigationTitle("MEWP")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
